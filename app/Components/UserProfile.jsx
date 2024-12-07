@@ -2,106 +2,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import { useRouter } from 'next/router';
-import JsBarcode from 'jsbarcode';
 
-const UserProfile = () => {
-  // const router = useRouter();
+const UserProfile = ({propFormData}) => {
 
-  // const { state } = router.query;
-
-  // const { formData } = state; 
-
-  // console.log('form data:', formData)
-
-  const [userData, setUserData] = useState(null);
   const profileRef = useRef(null);
 
-  useEffect(() => {
-    const dummyData = {
-      ID: 1,
-      FORMNO: "2720979",
-      APPEARINGCATEGORY: "Partial Appear",
-      LEVEL: "SSC",
-      SSCROLLNO: "312312",
-      NAME: "DANIYAL AHMED",
-      FATHERNAME: "SDAASDAS",
-      DATEOFBIRTH: "0000-00-00",
-      PHONENO: "",
-      WPNO: "",
-      GENDER: "Male",
-      BFORMNO: "ASDASDASDA",
-      FATHERCNICNO: "ASDASDA",
-      REGISTRATIONNO: "23123`323123123",
-      REGION: "Urban",
-      DISABILITY: "No",
-      NATIONALITY: "Pakistani",
-      MEDIUM: "English",
-      IDENTIFICATIONMARK: "",
-      RELIGION: "Muslim",
-      HAFIZQURAN: false,
-      ADDRESS: "XCASDASDSA",
-      DISTRICT: "Lahore",
-      MOBILENO: "",
-      IMAGE: null,
-      FINALCENTER: null,
-      DESCR: null,
-      ROLLNO: null,
-      RESIDENTIALADD1: null,
-      EXAM: null,
-      ZIP_CODE: "ASDASDA",
-      STATE: "ASDASD",
-      CITY: "ASDASDAS",
-      EMAIL: null,
-      PHOTO: null,
-      createdAt: "2024-12-05T12:28:40.000Z",
-      updatedAt: "2024-12-05T12:28:40.000Z",
-    };
-
-    setTimeout(() => {
-      setUserData(dummyData);
-    }, 0);
-  }, []);
 
   const generatePDF = () => {
     const element = profileRef.current;
 
     const pageWidth = 210;
-    const pageHeight = 297 + 105;
+    const pageHeight = 297 + 75;
 
     const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: [pageWidth, pageHeight],
+      orientation: 'portrait',
+      unit: 'mm',
+      format: [pageWidth, pageHeight],
     });
 
     doc.html(element, {
-        callback: function (doc) {
-            doc.save('user-profile.pdf');
-        },
-        x: 0,
-        y: 0,
-        html2canvas: {
-            scale: 0.2647,
-        },
+      callback: function (doc) {
+        doc.save('user-profile.pdf');
+      },
+      x: 0,
+      y: 0,
+      html2canvas: {
+        scale: 0.2647,
+      },
     });
-};
-
-  const barcodeRef = useRef(null);
-
-  useEffect(() => {
-    if (barcodeRef.current && userData.FORMNO) {
-      JsBarcode(barcodeRef.current, userData.FORMNO,{
-        displayValue: false,
-        height: 50,
-      });
-    }
-  }, [userData]);
+  };
 
   return (
     <div>
-      <h1>User Profile</h1>
-      {userData ? (
-        <div ref={profileRef} style={{ fontFamily:'Arial', fontSize:'12px', lineHeight:'1.5', width:'210mm', height:'297mm'}} className='m-auto px-[0.8in] py-[0.1in] border-black border-[1px]'>
+      {propFormData ? (
+        <div className='hidden'>
+          <div ref={profileRef} style={{ fontFamily:'Arial', fontSize:'12px', lineHeight:'1.5', width:'210mm', height:'297mm'}} className='m-auto px-[0.8in] py-[0.1in]'>
           <div className='flex justify-between'>
             <div className=' flex flex-col justify-start items-center' style={{lineHeight:'0.8rem', fontSize:"0.8rem"}}>
               <div className=' rounded-lg border-black border-2 space-y-4 pt-1 pb-1 px-[0.125rem]'>
@@ -124,109 +59,116 @@ const UserProfile = () => {
           </div>
           <div className="flex flex-col">
             <div className="flex justify-between items-center">
-              <h2>Form No - {`${userData.FORMNO}`}</h2>
-              <svg ref={barcodeRef}></svg>
+              <h2>Form No - {`${propFormData.formNo}`}</h2>
+              <img src={`https://quickchart.io/barcode?type=code128&text=${propFormData.formNo}&width=200&height=30`} alt="" />
+            </div>
+            <div className="flex justify-between items-center">
+              <h2>Institute Code - {`${propFormData.instituteCode}`}</h2>
+              <div className='flex justify-between'>
+                <p>School Roll No: </p>
+                <p>{` ${propFormData.schoolRollNumber}`}</p>
+              </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'>PERSONAL INFORMATION</div>
+            <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'><p className='font-semibold'>PERSONAL INFORMATION</p></div>
             <div className="flex justify-between">
               <div className='flex flex-col basis-[30%]'>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Name</h5>
-                    <p>{`${userData.NAME}`}</p>
+                    <p>{`${propFormData.personalInfo.name}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>F Name</h5>
-                    <p>{`${userData.FATHERNAME}`}</p>
+                    <p>{`${propFormData.personalInfo.fatherName}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Date of Birth</h5>
-                    <p>{`${userData.DATEOFBIRTH}`}</p>
+                    <p>{`${propFormData.personalInfo.dob}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Gender</h5>
-                    <p>{`${userData.GENDER}`}</p>
+                    <p>{`${propFormData.personalInfo.gender}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>B-FORM No</h5>
-                    <p>{`${userData.BFORMNO}`}</p>
+                    <p>{`${propFormData.personalInfo.bFormNo}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>F-CNIC No</h5>
-                    <p>{`${userData.FATHERCNICNO}`}</p>
+                    <p>{`${propFormData.personalInfo.fatherCnicNo}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Speciality</h5>
-                    <p>{`NONE`}</p>
+                    <p>{`${propFormData.personalInfo.speciality}`}</p>
                 </div>
                 <div className='flex '>
-                    <h5 className='basis-[40%]'>F-CNIC No</h5>
-                    <p>{`${userData.FATHERCNICNO}`}</p>
+                    <h5 className='basis-[40%]'>Hafiz</h5>
+                    <p>{`${propFormData.personalInfo.hafiz}`}</p>
                 </div>
               </div>
               <div className='flex flex-col justify-end  basis-[30%]'>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Nationality</h5>
-                    <p>{`${userData.NATIONALITY}`}</p>
+                    <p>{`${propFormData.personalInfo.nationality}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Religion</h5>
-                    <p>{`${userData.RELIGION}`}</p>
+                    <p>{`${propFormData.personalInfo.religion}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Orphan</h5>
-                    <p>{`NO`}</p>
+                    <p>{`${propFormData.personalInfo.orphan}`}</p>
                 </div> 
               </div>
               <div className='flex basis-[30%] justify-between pt-3'>
-                  <img src='/assets/profile-pic.jfif' className='h-[22mm] w-[19mm]'/>
+                  <img src={propFormData.personalInfo.img} className='h-[22mm] w-[19mm]'/>
                 <div className=" w-[22mm] h-[25mm] border-[1px] border-black" ></div>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-          <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'>CONTACT INFORMATION</div>
+          <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'><p className='font-semibold'>CONTACT INFORMATION</p></div>
             <div className="flex">
               <div className='basis-[30%]'>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Address</h5>
-                    <p>{`${userData.ADDRESS}`}</p>
+                    <p>{`${propFormData.contactInfo.address}`}</p>
                 </div>
                 <div className='flex '>
                     <h5 className='basis-[40%]'>Mobile No</h5>
-                    <p>{`${userData.MOBILENO?userData.MOBILENO:"***********"}`}</p>
+                    <p>{`${propFormData.contactInfo.mobileNo}`}</p>
                 </div>
               </div>
             </div>
           </div>
           <div className='flex flex-col'>
-          <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'>ENROLLMENT INFORMATION</div>
+          <div className='p-1 flex items-center bg-slate-300 border-t-[1px] border-black'><p className='font-semibold'>ENROLLMENT INFORMATION</p></div>
             
             <div className="flex w-full  justify-between">
               <div className='flex basis-[30%]'>
                 <h5 className='basis-[48%]'>Inst. Adm. <br />Date</h5>
-                <p>11/09/2024</p>
+                <p>{`${propFormData.enrollmentInfo.instAdmDate}`}</p>
               </div>
               <div className='flex  basis-[30%]'>
                 <h5 className='basis-[48%]'>Inst. Adm. <br />No.</h5>
-                <p>{`${userData.REGISTRATIONNO}`}</p>
+                <p>{`${propFormData.enrollmentInfo.instAdmNo}`}</p>
               </div>
             </div>
             <div className='flex w-full justify-between'>
             <div className='flex basis-[30%]'>
                 <h5 className='basis-[48%]'>Medium</h5>
-                <p>{`${userData.MEDIUM}`}</p>
+                <p>{`${propFormData.enrollmentInfo.medium}`}</p>
               </div>
               <div className='flex basis-[30%]'>
                 <h5 className='basis-[48%]'>Category</h5>
-                <p>{`Regular Admission`}</p>
+                <p>{`${propFormData.enrollmentInfo.category}`}</p>
               </div>
             </div>
             <div className='flex w-full justify-between'>
             <div className='flex basis-[30%]'>
                 <h5 className='basis-[48%]'>Group</h5>
-                <p className='underline'>{`Science Group`}</p>
+                <p className='underline'>{`${propFormData.enrollmentInfo.group}`}</p>
               </div>
             </div>
           </div>
@@ -234,24 +176,11 @@ const UserProfile = () => {
               <h4 className="font-semibold">Subjects</h4>
               <table className="w-full table-auto border-collapse">
                 <tbody className='border-[1px] border-black'>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>Mathematics</td>
+                {propFormData.subjects.map((subject, index) => (
+                  <tr key={index} className="border-t-[1px] border-black">
+                    <td className='pb-2'>{`${index+1}. ${subject}`}</td>
                   </tr>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>Science</td>
-                  </tr>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>History</td>
-                  </tr>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>Mathematics</td>
-                  </tr>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>Science</td>
-                  </tr>
-                  <tr className="border-t-[1px] border-black">
-                    <td className='pb-2'>History</td>
-                  </tr>
+                ))}
                 </tbody>
               </table>
           </div>
@@ -273,10 +202,12 @@ const UserProfile = () => {
             <p className='basis-1/3 border-t border-black text-right'>Attestation of Head Institute</p>
           </div>
         </div>
+        </div>
+        
       ) : (
         <p>Loading user data...</p>
       )}
-      <button className='btn rounded-lg bg-blue-500 border-2 p-1' onClick={generatePDF}>Generate PDF</button>
+      <button className='btn rounded-lg bg-blue-500 border-2 p-1 m-auto' onClick={generatePDF}>Generate PDF</button>
     </div>
   );
 };

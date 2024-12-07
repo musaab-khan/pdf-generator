@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   remotePatterns: [
     {
       protocol: 'https',
-      hostname: 'chart.googleapis.com',
-      pathname: '/chart', // You can specify the path if needed, or leave it as '/chart'
+      hostname: 'quickchart.io',
+      pathname: '/barcode',
     }
   ]
 };
