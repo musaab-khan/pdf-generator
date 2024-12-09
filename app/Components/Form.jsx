@@ -70,7 +70,24 @@ const Form = () => {
       });
       
     }
-    
+    else if (type === 'file') {
+      if (files && files[0]) {
+        const file = files[0];
+        
+        // Create a temporary URL for the file
+        const imageURL = URL.createObjectURL(file);
+        console.log(imageURL);  // Log the temporary image URL
+  
+        // Update the form data with the image URL (or store the file if needed)
+        setFormData({
+          ...formData,
+          personalInfo: {
+            ...formData.personalInfo,
+            img: imageURL,  // Store the image URL in the personalInfo section
+          },
+        });
+      }
+    } 
     else if (name.includes('personalInfo') || name.includes('contactInfo') || name.includes('enrollmentInfo')) {
       const section = name.split('.')[0];
       const field = name.split('.')[1];
@@ -115,7 +132,7 @@ const Form = () => {
       <form onSubmit={handleSubmit} className="space-y-6  bg-slate-100 p-6">
         <div>
           <label className="block text-2xl font-bold">Form No:</label>
-          <input required
+          <input required 
             type="text"
             name="formNo"
             value={formData.formNo}
@@ -126,7 +143,7 @@ const Form = () => {
 
         <div>
           <label className="block text-2xl font-bold">Institute Code:</label>
-          <input required
+          <input required 
             type="text"
             name="instituteCode"
             value={formData.instituteCode}
@@ -137,7 +154,7 @@ const Form = () => {
 
         <div>
           <label className="block text-2xl font-bold">School Roll Number:</label>
-          <input required
+          <input required 
             type="text"
             name="schoolRollNumber"
             value={formData.schoolRollNumber}
@@ -150,7 +167,7 @@ const Form = () => {
         <div className="border-t border-black pt-4">
           <h2 className="text-2xl font-bold mb-2">Personal Info</h2>
           <label className="block text-xl font-semibold">Name:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.name"
             value={formData.personalInfo.name}
@@ -159,7 +176,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Father's Name:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.fatherName"
             value={formData.personalInfo.fatherName}
@@ -168,7 +185,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Date of Birth:</label>
-          <input required
+          <input required 
             type="date"
             name="personalInfo.dob"
             value={formData.personalInfo.dob}
@@ -189,7 +206,7 @@ const Form = () => {
           </select>
 
           <label className="block mt-4 text-xl font-semibold">B-Form No:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.bFormNo"
             value={formData.personalInfo.bFormNo}
@@ -198,7 +215,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Father's CNIC No:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.fatherCnicNo"
             value={formData.personalInfo.fatherCnicNo}
@@ -207,7 +224,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Nationality:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.nationality"
             value={formData.personalInfo.nationality}
@@ -216,7 +233,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Speciality:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.speciality"
             value={formData.personalInfo.speciality}
@@ -225,7 +242,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Religion:</label>
-          <input required
+          <input required 
             type="text"
             name="personalInfo.religion"
             value={formData.personalInfo.religion}
@@ -257,10 +274,10 @@ const Form = () => {
           </select>
 
           <label className="block mt-4 text-xl font-semibold">Upload your Image:</label>
-          <input required
+          <input required 
             type="file"
             name="personalInfo.img"
-            value={formData.personalInfo.img}
+            // value={formData.personalInfo.img}
             onChange={handleChange}
             className="mt-1 text-xl p-2 w-full border rounded-lg"
           />
@@ -271,7 +288,7 @@ const Form = () => {
           <h2 className="text-2xl font-bold mb-2">Contact Info</h2>
 
           <label className="block text-xl font-semibold">Address:</label>
-          <input required
+          <input required 
             type="text"
             name="contactInfo.address"
             value={formData.contactInfo.address}
@@ -280,7 +297,7 @@ const Form = () => {
           />
 
           <label className="block mt-4 text-xl font-semibold">Mobile No:</label>
-          <input required
+          <input required 
             type="text"
             name="contactInfo.mobileNo"
             value={formData.contactInfo.mobileNo}
@@ -296,7 +313,7 @@ const Form = () => {
 
           {/* Institute Admission Date */}
           <label className="block text-xl font-semibold">Institute Admission Date:</label>
-          <input required
+          <input required 
             type="date"
             name="enrollmentInfo.instAdmDate"
             value={formData.enrollmentInfo.instAdmDate}
@@ -306,7 +323,7 @@ const Form = () => {
 
           {/* Institute Admission No */}
           <label className="block mt-4 text-xl font-semibold">Institute Admission No:</label>
-          <input required
+          <input required 
             type="text"
             name="enrollmentInfo.instAdmNo"
             value={formData.enrollmentInfo.instAdmNo}
@@ -358,7 +375,7 @@ const Form = () => {
             <label className="block text-xl font-semibold">Subjects:</label>
             {formData.subjects.map((subject, index) => (
               <div key={index} className="flex items-center mt-2">
-                <input required
+                <input required 
                   type="checkbox"
                   id={`subject-${index}`}
                   name={`subject-${subject}  text-xl`}

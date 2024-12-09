@@ -123,8 +123,8 @@ const UserProfile = ({propFormData}) => {
                 </div> 
               </div>
               <div className='flex basis-[32%] justify-between pt-3'>
-                  {/* <img src={propFormData.personalInfo.img} className='h-[20mm] w-[20mm]'/> */}
-                  <img src={'/assets/profile-pic.jfif'} className='h-[20mm] w-[20mm]'/>
+                  <img src={propFormData.personalInfo.img} className='h-[20mm] w-[20mm]'/>
+                  {/* <img src={'/assets/profile-pic.jfif'} className='h-[20mm] w-[20mm]'/> */}
                 <div className="w-[22mm] h-[22mm] border-[1px] border-black" ></div>
               </div>
             </div>
