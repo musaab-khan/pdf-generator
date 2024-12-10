@@ -34,7 +34,7 @@ const UserProfile = ({propFormData}) => {
   return (
     <div>
       {propFormData ? (
-        <div className='hidden'>
+        <div className='hiddenz'>
           <div ref={profileRef} style={{ fontFamily:'Arial', fontSize:'12px', lineHeight:'1.5', width:'210mm', height:'297mm'}} className='m-auto px-[0.8in] py-[0.1in]'>
           <div className='flex gap-4'>
             <div className=' flex flex-col justify-start items-center' style={{lineHeight:'0.8rem', fontSize:"0.7rem"}}>
@@ -76,7 +76,6 @@ const UserProfile = ({propFormData}) => {
               <div className='flex flex-col basis-[32%]'>
                 <div className='flex text-[15px] mb-[-1rem]'>
                     <h5 className='basis-[44%]'>Name</h5>
-                    {/* <p className='uppercase'>{`Musaab`}</p> */}
                     <p className='uppercase'>{`${propFormData.personalInfo.name}`}</p>
                 </div>
                 <div className='flex text-[15px] mb-[-1rem]'>
@@ -180,7 +179,7 @@ const UserProfile = ({propFormData}) => {
                 <tbody className='border-[1px] border-black'>
                 {propFormData.subjects.map((subject, index) => (
                   <tr key={index} className="border-t-[1px] border-black">
-                    <td className='pb-2 text-[15px]'>{`${index+1}. ${subject}`}</td>
+                    <td className=' text-[15px] pb-[0.6rem] pl-1 uppercase' style={{lineHeight:'11px'}}>{`${index+1}. ${subject}`}</td>
                   </tr>
                 ))}
                 </tbody>
